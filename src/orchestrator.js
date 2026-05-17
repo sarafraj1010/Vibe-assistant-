@@ -2,8 +2,8 @@ const fs = require('fs')
 const path = require('path')
 const { execSync } = require('child_process')
 const chalk = require('chalk')
-const Phase1 = require('./src/phase1_branding')
-const DependencyManager = require('./src/dependencyManager')
+const Phase1 = require('./phase1_branding')
+const DependencyManager = require('./dependencyManager')
 
 const MEMORY_PATH = path.join(process.cwd(), 'memory.md')
 
@@ -28,10 +28,14 @@ async function runPhase1(options = {}) {
   console.log(chalk.cyan('\n[Orchestrator] Starting Phase 1: Branding & Design System'))
 
   // Ensure dependencies needed for phase1 are installed (none heavy)
-  try {
-    await DependencyManager.ensure([])
-  } catch (err) {
-    console.error(chalk.red('[DependencyManager] Failed to ensure dependencies:'), err)
+  if (!options.dry) {
+    try {
+      await DependencyManager.ensure([])
+    } catch (err) {
+      console.error(chalk.red('[DependencyManager] Failed to ensure dependencies:'), err)
+    }
+  } else {
+    console.log(chalk.yellow('[Orchestrator] Dry mode — skipping dependency installs'))
   }
 
   const prdPath = path.join(process.cwd(), 'prd.md')
