@@ -12,6 +12,7 @@
     "build": "node cli.js build",
     "phase1": "node run-phase1.js",
     "phase2": "node run-phase2.js",
+    "phase3": "node run-phase3.js",
     "phase": "node cli-runner.js",
     "test": "vitest"
   },
